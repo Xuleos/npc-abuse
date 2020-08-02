@@ -2,6 +2,30 @@
 	"name": "npc-abuse",
 	"tree": {
 		"$className": "DataModel",
+		"Workspace": {
+			"$className": "Workspace",
+			"$properties": {
+				"FilteringEnabled": true,
+				"StreamingEnabled": true
+			},
+			"$path": "assets/workspace"
+		},
+		"Lighting": {
+			"$className": "Lighting",
+			"$properties": {
+				"Ambient": [1, 0.54901960784, 0.55686274509],
+				"Brightness": 1.75,
+				"ColorShift_Bottom": [1, 0.69803921568, 0.43137254902],
+				"ColorShift_Top": [1, 1, 0.74902],
+				"EnvironmentDiffuseScale": 0.1,
+				"EnvironmentSpecularScale": 0.3,
+				"GlobalShadows": true,
+				"OutdoorAmbient": [0.556863, 1, 1],
+				"Technology": "Future",
+				"ClockTime": 14,
+				"GeographicLatitude": 40
+			}
+		},
 		"ServerScriptService": {
 			"$className": "ServerScriptService",
 			"TS": {
