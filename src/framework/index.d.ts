@@ -2,8 +2,7 @@
 import Signal from "@rbxts/signal";
 
 declare namespace Framework {
-
-	abstract class Component  {
+	abstract class Component {
 		entity: Entity<Instance>;
 
 		constructor(entity: Entity<Instance>);
