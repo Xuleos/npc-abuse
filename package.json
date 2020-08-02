@@ -1,0 +1,29 @@
+{
+  "name": "npc-abuse",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "rbxtsc -v && rbxtsc -w",
+    "build": "echo compiling source with roblox-ts version: && rbxtsc -v && rbxtsc && echo successfully compiled && npm run build-game",
+    "build-game": "echo Rojo verison: && rojo --version && rojo build --output currentBuild.rbxlx && echo compiled game successfully"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xuleos/npc-abuse.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Xuleos/npc-abuse/issues"
+  },
+  "homepage": "https://github.com/Xuleos/npc-abuse#readme",
+  "devDependencies": {
+    "@rbxts/types": "^1.0.385"
+  },
+  "dependencies": {
+    "@rbxts/fast-spawn": "^1.1.0",
+    "@rbxts/signal": "^1.0.2"
+  }
+}

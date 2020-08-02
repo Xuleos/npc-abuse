@@ -1,0 +1,6 @@
+node_modules
+include
+out
+currentBuild.rbxlx
+currentBuild.rbxlx.lock
+tsconfig.tsbuildinfo
