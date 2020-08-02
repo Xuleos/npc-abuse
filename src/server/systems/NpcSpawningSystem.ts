@@ -17,12 +17,14 @@ export class NpcSpawningSystem extends Framework.ServerSystem {
 		}
 	>();
 
+	private random = new Random();
+
 	start() {
 		for (const name of Object.keys(LEVEL_DEFINITIONS)) {
 			this.levelSpawners.set(name, {
 				count: 0,
-				currentTime: 0,
-				interval: MIN_SPAWNING_INTERVAL,
+				currentTime: this.random.NextNumber(MIN_SPAWNING_INTERVAL, MAX_SPAWNING_INTERVAL),
+				interval: this.random.NextNumber(MIN_SPAWNING_INTERVAL, MAX_SPAWNING_INTERVAL),
 			});
 		}
 
