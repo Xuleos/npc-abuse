@@ -21,7 +21,7 @@
 				"EnvironmentSpecularScale": 0.3,
 				"GlobalShadows": true,
 				"OutdoorAmbient": [0.556863, 1, 1],
-				"Technology": "Future",
+				"Technology": "ShadowMap",
 				"ClockTime": 14,
 				"GeographicLatitude": 40
 			}
