@@ -1,11 +1,11 @@
 --this is old leave me alone
-local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"));
-local FastSpawn = TS.import(script, TS.getModule(script, "fast-spawn"));
+local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
+local FastSpawn = TS.import(script, TS.getModule(script, "fast-spawn")).spawn
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local systemsFolder = script.Parent:WaitForChild("systems");
-local componentsFolder = script.Parent:WaitForChild("components");
+local systemsFolder = script.Parent:WaitForChild("systems")
+local componentsFolder = script.Parent:WaitForChild("components")
 
 local sharedFolder = ReplicatedStorage:WaitForChild("TS")
 local sharedComponentFolder = sharedFolder:WaitForChild("components")
