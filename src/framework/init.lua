@@ -13,7 +13,7 @@ local Framework = {
             return Query.new(inst, components)
         end
     },
-    Mallow = inst,
+    mallow = inst,
     ServerSystems = {},
     ClientSystems = {}
 }

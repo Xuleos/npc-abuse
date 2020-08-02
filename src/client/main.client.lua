@@ -24,7 +24,7 @@ local function LoadSystem(module)
         if typeof(export) == "table" and export.new and export["start"] then
             if export.disabled ~= true then
                 --gotta do the stuffs here
-                export.mallow = Framework.Mallow
+                export.mallow = Framework.mallow
                 local System = export.new()
                 System.systems = Framework.ClientSystems
                 Framework.ClientSystems[module.Name] = System
@@ -49,10 +49,10 @@ end
 
 --Initiation
 
-Framework.Mallow:RegisterComponentsInFolder(componentsFolder)
-Framework.Mallow:RegisterComponentsInFolder(sharedComponentFolder)
+Framework.mallow:RegisterComponentsInFolder(componentsFolder)
+Framework.mallow:RegisterComponentsInFolder(sharedComponentFolder)
 
-Framework.Mallow:Finish()
+Framework.mallow:Finish()
 
 recur(systemsFolder)
 recur(sharedSystemsFolder)

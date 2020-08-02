@@ -25,7 +25,7 @@ local function LoadSystem(module)
         if typeof(export) == "table" and export.new then
             if export.Disabled ~= true then
                 --gotta do the stuffs here
-                export.mallow = Framework.Mallow
+                export.mallow = Framework.mallow
                 local system = export.new()
                 system.systems = Framework.ServerSystems;
                 Framework.ServerSystems[module.Name] = system
@@ -47,10 +47,10 @@ local function recurLoadSystems(search)
 end
 
 --Actual Initiation
-Framework.Mallow:RegisterComponentsInFolder(componentsFolder)
-Framework.Mallow:RegisterComponentsInFolder(sharedComponentFolder)
+Framework.mallow:RegisterComponentsInFolder(componentsFolder)
+Framework.mallow:RegisterComponentsInFolder(sharedComponentFolder)
 
-Framework.Mallow:Finish()
+Framework.mallow:Finish()
 
 recurLoadSystems(systemsFolder)
 recurLoadSystems(sharedSystemsFolder)

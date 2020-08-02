@@ -50,7 +50,7 @@ declare namespace Framework {
 		[key: string]: Query<Instance>;
 	}
 
-	const Mallow: Mallow;
+	const mallow: Mallow;
 
 	abstract class ServerSystem {
 		public disabled?: boolean;

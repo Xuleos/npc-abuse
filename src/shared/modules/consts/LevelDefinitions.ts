@@ -1,6 +1,6 @@
 import { Workspace } from "@rbxts/services";
 
-interface Level {
+export interface Level {
 	npcSpawnerParts: Folder;
 }
 

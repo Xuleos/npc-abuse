@@ -1,7 +1,8 @@
 import * as Framework from "Framework";
 import { RunService } from "@rbxts/services";
 import { OutQuart } from "@rbxts/easing-functions";
-import { LEVEL_DEFINITIONS } from "shared/modules/consts/LevelDefinitions";
+import { LEVEL_DEFINITIONS, Level } from "shared/modules/consts/LevelDefinitions";
+import { randomPositionFromLevel } from "server/modules/Npcs/spawningUtility";
 
 const MIN_SPAWNING_INTERVAL = 0.1;
 const MAX_SPAWNING_INTERVAL = 5;
@@ -14,17 +15,19 @@ export class NpcSpawningSystem extends Framework.ServerSystem {
 			count: number;
 			currentTime: number;
 			interval: number;
+			def: Level;
 		}
 	>();
 
 	private random = new Random();
 
 	start() {
-		for (const name of Object.keys(LEVEL_DEFINITIONS)) {
+		for (const [name, levelDef] of Object.entries(LEVEL_DEFINITIONS)) {
 			this.levelSpawners.set(name, {
 				count: 0,
 				currentTime: this.random.NextNumber(MIN_SPAWNING_INTERVAL, MAX_SPAWNING_INTERVAL),
 				interval: this.random.NextNumber(MIN_SPAWNING_INTERVAL, MAX_SPAWNING_INTERVAL),
+				def: levelDef,
 			});
 		}
 
@@ -36,6 +39,8 @@ export class NpcSpawningSystem extends Framework.ServerSystem {
 					level.currentTime = 0;
 
 					level.interval = this.getSpawnInterval(level.count);
+
+					const position = randomPositionFromLevel(this.random, level.def);
 
 					level.count++;
 				}
