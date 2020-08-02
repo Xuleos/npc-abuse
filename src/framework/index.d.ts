@@ -1,17 +1,11 @@
-
-//THIS IS SO OLD PLEASE LEAVE THIS FILE
+//THIS IS SO OLD PLEASE LEAVE ME ALONE
 import Signal from "@rbxts/signal";
 
 declare namespace Framework {
-	abstract class IComponent {
-		update<T extends this, K extends keyof T>(member: keyof T, value: T[K]): void;
 
+	abstract class Component  {
 		entity: Entity<Instance>;
 
-		constructor(entity: Entity<Instance>);
-	}
-
-	abstract class Component extends IComponent {
 		constructor(entity: Entity<Instance>);
 	}
 
@@ -22,21 +16,17 @@ declare namespace Framework {
 		 * @param component class
 		 * @returns the component instance or undefined
 		 */
-		getComponent<O extends IComponent, K = ConstructorParameters<{ new (): O }>>(component: new (args: K) => O): O;
+		getComponent<C extends Component, P = ConstructorParameters<{ new (): C }>>(component: new (args: P) => C): C;
 
-		waitForComponentAsync<O extends Component>(component: new () => O): Promise<O>;
-
-		hasComponent<O extends IComponent, K = ConstructorParameters<{ new (): O }>, B = new (args: K) => O>(
+		hasComponent<C extends Component, P = ConstructorParameters<{ new (): C }>, B = new (args: P) => C>(
 			component: B,
 		): boolean;
 
-		addComponent<T extends Component>(component: T): T;
+		addComponent<C extends Component>(component: C): C;
 
-		removeComponent<O extends IComponent, K = ConstructorParameters<{ new (): O }>, B = new (args: K) => O>(
+		removeComponent<C extends Component, P = ConstructorParameters<{ new (): C }>, B = new (args: P) => C>(
 			component: B,
 		): void;
-
-		id: string;
 	}
 
 	interface Mallow {
