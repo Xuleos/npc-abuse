@@ -45,7 +45,9 @@
 				"framework": {
 					"$path": "out/framework"
 				}
-
+			},
+			"assets": {
+				"$path": "assets/replicated-storage"
 			}
 		},
 		"StarterPlayer": {

@@ -3,6 +3,7 @@ import { RunService } from "@rbxts/services";
 import { OutQuart } from "@rbxts/easing-functions";
 import { LEVEL_DEFINITIONS, Level } from "shared/modules/consts/LevelDefinitions";
 import { randomPositionFromLevel } from "server/modules/Npcs/spawningUtility";
+import { createNpc } from "server/modules/Npcs/npcCharacter";
 
 const MIN_SPAWNING_INTERVAL = 0.1;
 const MAX_SPAWNING_INTERVAL = 5;
@@ -42,7 +43,12 @@ export class NpcSpawningSystem extends Framework.ServerSystem {
 
 					const position = randomPositionFromLevel(this.random, level.def);
 
-					level.count++;
+					print(position);
+
+					if (typeIs(position, "Vector3")) {
+						createNpc(position);
+						level.count++;
+					}
 				}
 			}
 		});
