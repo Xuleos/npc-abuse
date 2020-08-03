@@ -4,10 +4,12 @@ import { OutQuart } from "@rbxts/easing-functions";
 import { LEVEL_DEFINITIONS, Level } from "shared/modules/consts/LevelDefinitions";
 import { randomPositionFromLevel } from "server/modules/Npcs/spawningUtility";
 import { createNpc } from "server/modules/Npcs/npcCharacter";
+import { Debris } from "server/components/Debris";
 
 const MIN_SPAWNING_INTERVAL = 0.1;
 const MAX_SPAWNING_INTERVAL = 5;
 const INTERVAL_CHANGE_RATE = 100;
+const DESPAWN_TIME = 300;
 
 export class NpcSpawningSystem extends Framework.ServerSystem {
 	levelSpawners = new Map<
@@ -44,7 +46,11 @@ export class NpcSpawningSystem extends Framework.ServerSystem {
 					const position = randomPositionFromLevel(this.random, level.def);
 
 					if (typeIs(position, "Vector3")) {
-						createNpc(position);
+						const npc = createNpc(position);
+
+						const npcEntity = Framework.mallow.fetchEntity(npc);
+						npcEntity.addComponent(new Debris(npcEntity, DESPAWN_TIME));
+
 						level.count++;
 					} else {
 						level.currentTime = level.interval;

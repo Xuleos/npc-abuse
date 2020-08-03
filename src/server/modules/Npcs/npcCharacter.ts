@@ -40,4 +40,6 @@ export function createNpc(position: Vector3) {
 
 	humanoid.ApplyDescription(description);
 	description.Destroy();
+
+	return dummy;
 }
