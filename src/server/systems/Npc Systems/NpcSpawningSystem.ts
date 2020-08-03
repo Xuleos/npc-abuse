@@ -43,11 +43,11 @@ export class NpcSpawningSystem extends Framework.ServerSystem {
 
 					const position = randomPositionFromLevel(this.random, level.def);
 
-					print(position);
-
 					if (typeIs(position, "Vector3")) {
 						createNpc(position);
 						level.count++;
+					} else {
+						level.currentTime = level.interval;
 					}
 				}
 			}

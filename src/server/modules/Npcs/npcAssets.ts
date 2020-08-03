@@ -34,8 +34,6 @@ export const femaleHairs = [
 	1513252656,
 ];
 
-export const hairs = maleHairs.concat(femaleHairs)
-
 export const hats = [
 	139152472,
 	10476359,
@@ -106,4 +104,14 @@ export const pants = [
 	1174596088,
 	65160699,
 	3497450151,
+];
+
+export const skinColors = [
+	Color3.fromRGB(90, 76, 66),
+	Color3.fromRGB(124, 92, 70),
+	Color3.fromRGB(175, 148, 131),
+	Color3.fromRGB(204, 142, 105),
+	Color3.fromRGB(234, 184, 146),
+	Color3.fromRGB(86, 66, 54),
+	Color3.fromRGB(105, 64, 40),
 ];
