@@ -5,6 +5,7 @@ import { LEVEL_DEFINITIONS, Level } from "shared/modules/consts/LevelDefinitions
 import { randomPositionFromLevel } from "server/modules/Npcs/spawningUtility";
 import { createNpc } from "server/modules/Npcs/npcCharacter";
 import { Debris } from "server/components/Debris";
+import { Pickupable } from "shared/components/Pickupable";
 
 const MIN_SPAWNING_INTERVAL = 0.1;
 const MAX_SPAWNING_INTERVAL = 5;
@@ -50,9 +51,11 @@ export class NpcSpawningSystem extends Framework.ServerSystem {
 
 						const npcEntity = Framework.mallow.fetchEntity(npc);
 						npcEntity.addComponent(new Debris(npcEntity, DESPAWN_TIME));
+						npcEntity.addComponent(new Pickupable(npcEntity));
 
 						level.count++;
 					} else {
+						//so there isn't a consequence if the level can't find a spawning spot
 						level.currentTime = level.interval;
 					}
 				}
