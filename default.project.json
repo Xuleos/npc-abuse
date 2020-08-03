@@ -5,8 +5,7 @@
 		"Workspace": {
 			"$className": "Workspace",
 			"$properties": {
-				"FilteringEnabled": true,
-				"StreamingEnabled": true
+				"FilteringEnabled": true
 			},
 			"$path": "assets/workspace"
 		},
