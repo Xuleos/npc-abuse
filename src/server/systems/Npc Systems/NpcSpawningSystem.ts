@@ -7,7 +7,7 @@ import { createNpc } from "server/modules/Npcs/npcCharacter";
 
 const MIN_SPAWNING_INTERVAL = 0.1;
 const MAX_SPAWNING_INTERVAL = 5;
-const INTERVAL_CHANGE_RATE = 75;
+const INTERVAL_CHANGE_RATE = 100;
 
 export class NpcSpawningSystem extends Framework.ServerSystem {
 	levelSpawners = new Map<
@@ -56,8 +56,8 @@ export class NpcSpawningSystem extends Framework.ServerSystem {
 
 	//Get a interval for a level based on how many npcs are already in it
 	getSpawnInterval(count: number) {
-		const change = MIN_SPAWNING_INTERVAL - MAX_SPAWNING_INTERVAL;
-		const num = OutQuart(count, MAX_SPAWNING_INTERVAL, change, INTERVAL_CHANGE_RATE);
+		const change = MAX_SPAWNING_INTERVAL - MIN_SPAWNING_INTERVAL;
+		const num = OutQuart(count, MIN_SPAWNING_INTERVAL, change, INTERVAL_CHANGE_RATE);
 
 		return math.clamp(num, MIN_SPAWNING_INTERVAL, MAX_SPAWNING_INTERVAL);
 	}
