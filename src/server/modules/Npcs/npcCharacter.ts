@@ -1,5 +1,5 @@
 import { ReplicatedStorage, Workspace } from "@rbxts/services";
-import { femaleHairs, maleHairs, maleShirts, femaleShirts, pants, skinColors } from "./npcAssets";
+import { femaleHairs, maleHairs, maleShirts, femaleShirts, pants, skinColors, faces } from "./npcAssets";
 
 const random = new Random();
 export function createNpc(position: Vector3) {
@@ -27,6 +27,9 @@ export function createNpc(position: Vector3) {
 	description.LeftLegColor = color;
 	description.RightArmColor = color;
 	description.RightLegColor = color;
+
+	const face = faces[random.NextInteger(0, faces.size() - 1)];
+	description.Face = face;
 
 	const humanoid = dummy.WaitForChild("Humanoid") as Humanoid;
 

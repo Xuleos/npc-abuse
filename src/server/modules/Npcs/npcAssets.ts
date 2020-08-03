@@ -74,7 +74,7 @@ export const maleShirts = [
 	108159019,
 ];
 
-export const femaleShirts = maleShirts.concat([
+export const femaleShirts = maleShirts.copy(); /*maleShirts.concat([
 	382537702,
 	4047886060,
 	398634295,
@@ -85,7 +85,7 @@ export const femaleShirts = maleShirts.concat([
 	1119818107,
 	1065308417,
 	1167677820,
-]);
+]);*/
 
 export const pants = [
 	398633812,
@@ -114,4 +114,19 @@ export const skinColors = [
 	Color3.fromRGB(234, 184, 146),
 	Color3.fromRGB(86, 66, 54),
 	Color3.fromRGB(105, 64, 40),
+];
+
+export const faces = [
+	7699174,
+	7074786,
+	12145366,
+	26424808,
+	10907551,
+	20722130,
+	209995366,
+	18151826,
+	31117267,
+	162068415,
+	10907549,
+	25166274,
 ];
