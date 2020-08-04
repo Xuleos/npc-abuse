@@ -24,12 +24,6 @@ function Entity:getComponent(ComponentConstructor)
     end
 end
 
---We don't use this much. Save this for last
-function Entity:waitForComponentAsync()
-
-end
-
---We don't use this much. Save this for last
 function Entity:hasComponent(componentConstructor)
     local componentList = self._core.Components[componentConstructor.Tag]
 

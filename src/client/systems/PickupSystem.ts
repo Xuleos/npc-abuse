@@ -6,13 +6,19 @@ import { Pickupable } from "shared/components/Pickupable";
 const MINIMUM_INTERVAl = 0.1;
 const MAXIMUM_INTERVAL = 5;
 
+const MINIMUM_RADIUS = 10;
+const MINIMUM_VIEW_RANGE = 90;
+
 export class PickupSystem extends Framework.ClientSystem {
-	closestObject?: Model;
+	closestObject?: {
+		model: Model;
+		viewingScore: number;
+		distanceFromChar: number;
+	};
 
 	localPlayer = Players.LocalPlayer;
 
 	start() {
-		//Use a similar technique to @rbxts/distancepoller to iterate over these and find the best one to be closestObject
 		RunService.Heartbeat.Connect((dt) => {
 			for (const entity of this.queries.pickupableObjects.getResults()) {
 				this.handlePickupableEntity(entity, dt);
@@ -20,16 +26,22 @@ export class PickupSystem extends Framework.ClientSystem {
 		});
 
 		this.queries.pickupableObjects.resultAdded.Connect((entity) => {
-			if (!entity.Instance.IsA("Model") || !entity.Instance.PrimaryPart) {
+			const isAModel = entity.Instance.IsA("Model");
+			const hasPrimaryPart = entity.Instance.PrimaryPart !== undefined;
+
+			if (!isAModel) {
 				entity.removeComponent(Pickupable);
-				error(
-					"Pickupable component was assigned to something that wasn't a model or didn't have a primarypart",
-				);
+				error(`Pickupable component was added to a ${entity.Instance.ClassName} when it should be a Model`);
+			}
+
+			if (!hasPrimaryPart) {
+				entity.removeComponent(Pickupable);
+				error(`Pickupable component was added to a model without a primary part`);
 			}
 
 			const pickupableComp = entity.getComponent(Pickupable);
 
-			pickupableComp.interval = 1;
+			pickupableComp.interval = MINIMUM_INTERVAl;
 			pickupableComp.elapsedTime = 0;
 		});
 	}
@@ -60,11 +72,59 @@ export class PickupSystem extends Framework.ClientSystem {
 			const relative = entityPos.sub(charPrimaryPart.Position);
 			const distance = relative.Magnitude;
 
-			const viewingScore = this.viewingRangeScore(charPrimaryPart, relative);
-
-			print(viewingScore);
-
 			pickupableComp.interval = this.getCheckingInterval(distance);
+
+			if (distance <= MINIMUM_RADIUS) {
+				const viewingScore = this.viewingRangeScore(charPrimaryPart, relative);
+
+				if (viewingScore <= MINIMUM_VIEW_RANGE) {
+					//epic you are eligible to be evaluated my good pickupable object
+					this.evaluateOverCurrent(entity, charPrimaryPart, viewingScore, distance);
+				}
+			}
+		}
+	}
+
+	evaluateOverCurrent(
+		entity: Framework.Entity<Model>,
+		charPrimaryPart: BasePart,
+		viewingScore: number,
+		distance: number,
+	) {
+		//Update distance and viewing
+		if (this.closestObject !== undefined) {
+			const objPosition = this.closestObject.model.PrimaryPart?.Position;
+
+			if (!objPosition) {
+				this.closestObject = undefined;
+				error("current object does not have a primary part");
+			}
+
+			const newRelative = objPosition.sub(charPrimaryPart.Position);
+			const newViewingScore = this.viewingRangeScore(charPrimaryPart, newRelative);
+
+			this.closestObject.distanceFromChar = newRelative.Magnitude;
+			this.closestObject.viewingScore = newViewingScore;
+
+			if (
+				this.closestObject.distanceFromChar > MINIMUM_RADIUS ||
+				this.closestObject.viewingScore > MINIMUM_VIEW_RANGE
+			) {
+				this.closestObject = undefined;
+			}
+		}
+
+		const currentViewingScore = this.closestObject !== undefined ? this.closestObject.viewingScore : 360;
+		const currentDistance = this.closestObject !== undefined ? this.closestObject.distanceFromChar : 99999;
+
+		if (viewingScore < currentViewingScore && distance < currentDistance) {
+			this.closestObject = {
+				model: entity.Instance,
+				viewingScore: viewingScore,
+				distanceFromChar: distance,
+			};
+
+			print(this.closestObject.model);
 		}
 	}
 
@@ -72,10 +132,12 @@ export class PickupSystem extends Framework.ClientSystem {
 		const forward = charPrimaryPart.CFrame.LookVector;
 		const side = relative.Unit;
 		const theta = math.deg(math.acos(forward.Dot(side)));
+
+		return theta;
 	}
 
 	getCheckingInterval(distance: number) {
-		return math.clamp(distance / 10, MINIMUM_INTERVAl, MAXIMUM_INTERVAL);
+		return math.clamp(distance / 15, MINIMUM_INTERVAl, MAXIMUM_INTERVAL);
 	}
 
 	queries = {
