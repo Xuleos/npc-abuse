@@ -24,26 +24,6 @@ export class PickupSystem extends Framework.ClientSystem {
 				this.handlePickupableEntity(entity, dt);
 			}
 		});
-
-		this.queries.pickupableObjects.resultAdded.Connect((entity) => {
-			const isAModel = entity.Instance.IsA("Model");
-			const hasPrimaryPart = entity.Instance.PrimaryPart !== undefined;
-
-			if (!isAModel) {
-				entity.removeComponent(Pickupable);
-				error(`Pickupable component was added to a ${entity.Instance.ClassName} when it should be a Model`);
-			}
-
-			if (!hasPrimaryPart) {
-				entity.removeComponent(Pickupable);
-				error(`Pickupable component was added to a model without a primary part`);
-			}
-
-			const pickupableComp = entity.getComponent(Pickupable);
-
-			pickupableComp.interval = MINIMUM_INTERVAl;
-			pickupableComp.elapsedTime = 0;
-		});
 	}
 
 	handlePickupableEntity(entity: Framework.Entity<Model>, dt: number) {
