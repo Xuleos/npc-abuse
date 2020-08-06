@@ -28,6 +28,6 @@ export default class ThemeProvider extends Roact.PureComponent<ThemeProviderProp
 	}
 
 	render(): Roact.Element {
-		return <ThemeContext.Provider value={this.props.theme}>{this.props[Roact.Children]}</ThemeContext.Provider>;
+		return <ThemeContext.Provider value={defaultTheme}>{this.props[Roact.Children]}</ThemeContext.Provider>;
 	}
 }

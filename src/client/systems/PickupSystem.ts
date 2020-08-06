@@ -40,7 +40,8 @@ export class PickupSystem extends Framework.ClientSystem {
 		pickupableComp.elapsedTime += dt;
 
 		if (pickupableComp.elapsedTime >= pickupableComp.interval) {
-			const charPrimaryPart = this.localPlayer.Character?.PrimaryPart;
+			const char = this.localPlayer.Character;
+			const charPrimaryPart = char !== undefined ? char.PrimaryPart : undefined;
 
 			if (!charPrimaryPart) {
 				return;
@@ -73,7 +74,8 @@ export class PickupSystem extends Framework.ClientSystem {
 	) {
 		//Update distance and viewing
 		if (this.closestObject !== undefined) {
-			const objPosition = this.closestObject.model.PrimaryPart?.Position;
+			const objPrimaryPart = this.closestObject.model.PrimaryPart;
+			const objPosition = objPrimaryPart !== undefined ? objPrimaryPart.Position : undefined;
 
 			if (!objPosition) {
 				this.closestObject = undefined;
@@ -103,8 +105,6 @@ export class PickupSystem extends Framework.ClientSystem {
 				viewingScore: viewingScore,
 				distanceFromChar: distance,
 			};
-
-			print(this.closestObject.model);
 		}
 	}
 
