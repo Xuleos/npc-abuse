@@ -1,5 +1,6 @@
 import * as Framework from "Framework";
 import { RunService, Players } from "@rbxts/services";
+import Signal from "@rbxts/signal";
 
 import { Pickupable } from "shared/components/Pickupable";
 
@@ -15,6 +16,7 @@ export class PickupSystem extends Framework.ClientSystem {
 		viewingScore: number;
 		distanceFromChar: number;
 	};
+	closestObjectChanged = new Signal<(model?: Model) => void>();
 
 	localPlayer = Players.LocalPlayer;
 
@@ -24,6 +26,11 @@ export class PickupSystem extends Framework.ClientSystem {
 				this.handlePickupableEntity(entity, dt);
 			}
 		});
+	}
+
+	changeClosestObject(this: PickupSystem, newClosestObject: typeof this.closestObject) {
+		this.closestObject = newClosestObject;
+		this.closestObjectChanged.Fire(newClosestObject !== undefined ? newClosestObject.model : undefined);
 	}
 
 	handlePickupableEntity(entity: Framework.Entity<Model>, dt: number) {
@@ -78,7 +85,7 @@ export class PickupSystem extends Framework.ClientSystem {
 			const objPosition = objPrimaryPart !== undefined ? objPrimaryPart.Position : undefined;
 
 			if (!objPosition) {
-				this.closestObject = undefined;
+				this.changeClosestObject(undefined);
 				error("current object does not have a primary part");
 			}
 
@@ -92,7 +99,7 @@ export class PickupSystem extends Framework.ClientSystem {
 				this.closestObject.distanceFromChar > MINIMUM_RADIUS ||
 				this.closestObject.viewingScore > MINIMUM_VIEW_RANGE
 			) {
-				this.closestObject = undefined;
+				this.changeClosestObject(undefined);
 			}
 		}
 
@@ -100,11 +107,11 @@ export class PickupSystem extends Framework.ClientSystem {
 		const currentDistance = this.closestObject !== undefined ? this.closestObject.distanceFromChar : 99999;
 
 		if (viewingScore < currentViewingScore && distance < currentDistance) {
-			this.closestObject = {
+			this.changeClosestObject({
 				model: entity.Instance,
 				viewingScore: viewingScore,
 				distanceFromChar: distance,
-			};
+			});
 		}
 	}
 

@@ -2,12 +2,18 @@ import * as Roact from "@rbxts/roact";
 import { ThemeContext } from "../ThemeProvider";
 import Action from "./Action";
 import Inputs from "client/modules/Inputs";
+import Framework from "Framework";
 
-interface PickupDisplayProps {
-	Adornee: BasePart | Attachment;
+interface PickupDisplayProps {}
+
+interface PickupDisplayState {
+	object?: BasePart;
 }
 
-export default class PickupDisplay extends Roact.PureComponent<PickupDisplayProps> {
+export default class PickupDisplay extends Roact.PureComponent<PickupDisplayProps, PickupDisplayState> {
+	constructor(props: PickupDisplayProps) {
+		super(props);
+	}
 	render() {
 		return (
 			<ThemeContext.Consumer
@@ -16,7 +22,7 @@ export default class PickupDisplay extends Roact.PureComponent<PickupDisplayProp
 					const sizeY = 1.5;
 					return (
 						<billboardgui
-							Adornee={this.props.Adornee}
+							Adornee={this.state.object}
 							LightInfluence={0}
 							AlwaysOnTop={true}
 							ResetOnSpawn={false}
@@ -33,5 +39,19 @@ export default class PickupDisplay extends Roact.PureComponent<PickupDisplayProp
 				}}
 			/>
 		);
+	}
+
+	didMount() {
+		Framework.ClientSystems.PickupSystem.closestObjectChanged.Connect((model) => {
+			if (model) {
+				this.setState({
+					object: model.PrimaryPart,
+				});
+			} else {
+				this.setState({
+					object: Roact.None,
+				});
+			}
+		});
 	}
 }

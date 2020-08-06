@@ -6,6 +6,10 @@ interface AppProps {}
 
 export default class App extends Roact.PureComponent<AppProps> {
 	render() {
-		return <ThemeProvider></ThemeProvider>;
+		return (
+			<ThemeProvider>
+				<PickupDisplay />
+			</ThemeProvider>
+		);
 	}
 }

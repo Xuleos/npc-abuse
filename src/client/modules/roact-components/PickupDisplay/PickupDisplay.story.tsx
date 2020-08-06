@@ -11,7 +11,7 @@ export = (target: GuiObject) => {
 
 	const element = (
 		<ThemeProvider>
-			<PickupDisplay Adornee={part} />
+			<PickupDisplay />
 		</ThemeProvider>
 	);
 
