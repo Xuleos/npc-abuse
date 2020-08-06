@@ -1,5 +1,5 @@
 import Signal from "@rbxts/signal";
-import { PickupSystem } from "client/systems/PickupSystem";
+import { PickupDisplaySystem } from "client/systems/PickupDisplaySystem";
 
 declare global {
 	interface SharedSystems {
@@ -9,6 +9,6 @@ declare global {
 	interface GlobalServerSystems extends SharedSystems {}
 
 	interface GlobalClientSystems extends SharedSystems {
-		PickupSystem: PickupSystem;
+		PickupDisplaySystem: PickupDisplaySystem;
 	}
 }

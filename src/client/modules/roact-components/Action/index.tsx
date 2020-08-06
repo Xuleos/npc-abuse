@@ -2,14 +2,18 @@ import * as Roact from "@rbxts/roact";
 import { ThemeContext } from "../ThemeProvider";
 import ActionInfo from "../Action/ActionInfo";
 import { Input } from "client/modules/Inputs";
+import { UserInputService } from "@rbxts/services";
 
 interface ActionProps {
 	name: string;
 	input: Input;
 	object?: BasePart;
+	func?: () => void;
 }
 
 export default class Action extends Roact.PureComponent<ActionProps> {
+	inputBeganConnection?: RBXScriptConnection;
+
 	constructor(props: ActionProps) {
 		super(props);
 	}
@@ -47,5 +51,21 @@ export default class Action extends Roact.PureComponent<ActionProps> {
 				}}
 			/>
 		);
+	}
+
+	didMount() {
+		this.inputBeganConnection = UserInputService.InputBegan.Connect((inputObj, gameProcessed) => {
+			if (!gameProcessed && inputObj.KeyCode === this.props.input.keycode) {
+				if (this.props.func) {
+					this.props.func();
+				}
+			}
+		});
+	}
+
+	willUnmount() {
+		if (this.inputBeganConnection) {
+			this.inputBeganConnection.Disconnect();
+		}
 	}
 }

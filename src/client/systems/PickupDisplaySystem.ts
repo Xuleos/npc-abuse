@@ -10,7 +10,7 @@ const MAXIMUM_INTERVAL = 5;
 const MINIMUM_RADIUS = 10;
 const MINIMUM_VIEW_RANGE = 90;
 
-export class PickupSystem extends Framework.ClientSystem {
+export class PickupDisplaySystem extends Framework.ClientSystem {
 	closestObject?: {
 		model: Model;
 		viewingScore: number;
@@ -28,7 +28,7 @@ export class PickupSystem extends Framework.ClientSystem {
 		});
 	}
 
-	changeClosestObject(this: PickupSystem, newClosestObject: typeof this.closestObject) {
+	changeClosestObject(this: PickupDisplaySystem, newClosestObject: typeof this.closestObject) {
 		this.closestObject = newClosestObject;
 		this.closestObjectChanged.Fire(newClosestObject !== undefined ? newClosestObject.model : undefined);
 	}
