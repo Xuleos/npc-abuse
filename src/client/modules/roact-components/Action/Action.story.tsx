@@ -1,17 +1,18 @@
 import Roact from "@rbxts/roact";
 import { Workspace } from "@rbxts/services";
 
+import Inputs from "client/modules/Inputs";
 import ThemeProvider from "../ThemeProvider";
-import PickupDisplay from ".";
+import Action from ".";
 
-export = (target: GuiObject) => {
+export = () => {
 	const part = new Instance("Part");
 	part.Size = new Vector3(2, 2, 1);
 	part.Parent = Workspace;
 
 	const element = (
 		<ThemeProvider>
-			<PickupDisplay />
+			<Action name={"Action"} input={Inputs.light.E} />
 		</ThemeProvider>
 	);
 
