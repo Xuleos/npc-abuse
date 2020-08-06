@@ -18,11 +18,14 @@ export default class PickupDisplay extends Roact.PureComponent<PickupDisplayProp
 		return (
 			<ThemeContext.Consumer
 				render={(theme) => {
+					const enabled = this.state.object !== undefined ? true : false;
+
 					const sizeX = 5;
 					const sizeY = 1.5;
 					return (
 						<billboardgui
 							Adornee={this.state.object}
+							Enabled={enabled}
 							LightInfluence={0}
 							AlwaysOnTop={true}
 							ResetOnSpawn={false}

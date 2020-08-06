@@ -54,6 +54,10 @@ export class PickupSystem extends Framework.ClientSystem {
 				return;
 			}
 
+			if (this.closestObject && this.closestObject.model === entity.Instance) {
+				this.updateCurrent(charPrimaryPart);
+			}
+
 			pickupableComp.elapsedTime = 0;
 
 			const entityPos = entity.Instance.PrimaryPart.Position;
@@ -67,18 +71,13 @@ export class PickupSystem extends Framework.ClientSystem {
 
 				if (viewingScore <= MINIMUM_VIEW_RANGE) {
 					//epic you are eligible to be evaluated my good pickupable object
-					this.evaluateOverCurrent(entity, charPrimaryPart, viewingScore, distance);
+					this.evaluateOverCurrent(entity, viewingScore, distance);
 				}
 			}
 		}
 	}
 
-	evaluateOverCurrent(
-		entity: Framework.Entity<Model>,
-		charPrimaryPart: BasePart,
-		viewingScore: number,
-		distance: number,
-	) {
+	updateCurrent(charPrimaryPart: BasePart) {
 		//Update distance and viewing
 		if (this.closestObject !== undefined) {
 			const objPrimaryPart = this.closestObject.model.PrimaryPart;
@@ -102,7 +101,9 @@ export class PickupSystem extends Framework.ClientSystem {
 				this.changeClosestObject(undefined);
 			}
 		}
+	}
 
+	evaluateOverCurrent(entity: Framework.Entity<Model>, viewingScore: number, distance: number) {
 		const currentViewingScore = this.closestObject !== undefined ? this.closestObject.viewingScore : 360;
 		const currentDistance = this.closestObject !== undefined ? this.closestObject.distanceFromChar : 99999;
 
@@ -124,7 +125,7 @@ export class PickupSystem extends Framework.ClientSystem {
 	}
 
 	getCheckingInterval(distance: number) {
-		return math.clamp(distance / 15, MINIMUM_INTERVAl, MAXIMUM_INTERVAL);
+		return math.clamp(distance / 30, MINIMUM_INTERVAl, MAXIMUM_INTERVAL);
 	}
 
 	queries = {
