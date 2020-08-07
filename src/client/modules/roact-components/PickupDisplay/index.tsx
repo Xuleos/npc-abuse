@@ -65,10 +65,15 @@ export default class PickupDisplay extends Roact.PureComponent<PickupDisplayProp
 		const holdingComp = playerEntity.getComponent(Holding);
 
 		holdingComp.holdingModel.changed.Connect((newVal) => {
-			print("HII");
-			this.setState({
-				holdingObject: newVal,
-			});
+			if (newVal) {
+				this.setState({
+					holdingObject: newVal,
+				});
+			} else {
+				this.setState({
+					holdingObject: Roact.None,
+				});
+			}
 		});
 	}
 }
