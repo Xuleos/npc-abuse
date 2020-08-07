@@ -4,9 +4,9 @@ local Query = require(script.mallow.Query)
 local inst = Mallow.new()
 
 local Framework = {
-    ServerSystem = require(script.Service),
-    ClientSystem = require(script.Service),
-    SharedSystem = require(script.Service),
+    ServerSystem = require(script.System),
+    ClientSystem = require(script.System),
+    SharedSystem = require(script.System),
     Component = require(script.mallow.Component),
     Query = {
         new = function(components)
@@ -14,6 +14,7 @@ local Framework = {
         end
     },
     mallow = inst,
+    RemoteProperty = require(script.RemoteProperty),
     ServerSystems = {},
     ClientSystems = {}
 }

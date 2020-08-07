@@ -2,6 +2,8 @@ import * as Framework from "Framework";
 import Net from "@rbxts/net";
 import t from "@rbxts/t";
 import { Pickupable } from "shared/components/Pickupable";
+import { Players } from "@rbxts/services";
+import { Holding } from "server/components/Holding";
 
 const pickUpEvent = new Net.ServerEvent("PickUp", t.instanceIsA("Model"));
 
@@ -36,6 +38,11 @@ export class PickupSystem extends Framework.ServerSystem {
 			weld.Part1 = char.PrimaryPart;
 
 			weld.C0 = pickupableComp.weldInfo.C0;
+		});
+
+		Players.PlayerAdded.Connect((player) => {
+			const playerEntity = Framework.mallow.fetchEntity(player);
+			playerEntity.addComponent(new Holding(playerEntity));
 		});
 	}
 

@@ -86,5 +86,41 @@ declare namespace Framework {
 
 	const ServerSystems: GlobalServerSystems;
 	const ClientSystems: GlobalClientSystems;
+
+	type SupportedPropertyTypes =
+		| "string"
+		| "boolean"
+		| "number"
+		| "integer"
+		| "Instance"
+		| "Color3"
+		| "Vector3"
+		| undefined;
+
+	type TypeFromName<T> = T extends "string"
+		? string
+		: T extends "number"
+		? number
+		: T extends "boolean"
+		? boolean
+		: T extends "number"
+		? number
+		: T extends "integer"
+		? number
+		: T extends "Instance"
+		? Instance
+		: T extends "Color3"
+		? Color3
+		: T extends "Vector3"
+		? Vector3
+		: undefined;
+
+	class RemoteProperty<N extends SupportedPropertyTypes, T extends TypeFromName<N>> {
+		constructor(args: { name: string; component: Component; propertyType: N; initialValue?: T });
+
+		get(): T;
+
+		set(val: T): T;
+	}
 }
 export = Framework;
