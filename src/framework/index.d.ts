@@ -87,16 +87,7 @@ declare namespace Framework {
 	const ServerSystems: GlobalServerSystems;
 	const ClientSystems: GlobalClientSystems;
 
-	type SupportedPropertyTypes =
-		| "string"
-		| "boolean"
-		| "number"
-		| "integer"
-		| "Instance"
-		| "Color3"
-		| "Vector3"
-		| undefined;
-
+	type SupportedPropertyTypes = "string" | "boolean" | "number" | "integer" | "Instance" | "Color3" | "Vector3";
 	type TypeFromName<T> = T extends "string"
 		? string
 		: T extends "number"
