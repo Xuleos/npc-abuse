@@ -11,7 +11,7 @@ local typesToValuesMap = {
 }
 
 local RemoteProperty = {}
-
+RemoteProperty.__index = RemoteProperty
 function RemoteProperty.new(args)
     local self = setmetatable({}, RemoteProperty)
 

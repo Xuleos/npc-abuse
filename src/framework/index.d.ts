@@ -120,7 +120,7 @@ declare namespace Framework {
 
 		get(): T;
 
-		set(val: T): T;
+		set<O extends T | undefined>(val: O): O;
 	}
 }
 export = Framework;

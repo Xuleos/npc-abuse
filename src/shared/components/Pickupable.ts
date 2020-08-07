@@ -1,13 +1,15 @@
 import * as Framework from "Framework";
 import { RunService } from "@rbxts/services";
 
+export type weldInfoType = {
+	C0: CFrame;
+};
+
 export class Pickupable extends Framework.Component {
 	elapsedTime?: number;
 	interval?: number;
 
-	weldInfo?: {
-		C0: CFrame;
-	};
+	weldInfo?: weldInfoType;
 
 	constructor(entity: Framework.Entity<Model>) {
 		super(entity);

@@ -28,6 +28,8 @@ export default class PickupDisplay extends Roact.PureComponent<PickupDisplayProp
 					const object = this.state.object;
 					if (object && object.Parent && object.Parent.IsA("Model")) {
 						pickUpEvent.SendToServer(object.Parent);
+					} else {
+						pickUpEvent.SendToServer(undefined);
 					}
 				}}
 			/>

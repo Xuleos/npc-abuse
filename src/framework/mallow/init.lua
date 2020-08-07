@@ -37,8 +37,6 @@ function Core:entityTagRemoved(instance)
     for name,entities in pairs(self.Components) do
         for instance2,entity in pairs(entities) do
             if instance2 == instance then
-               self.Components[name][instance2] = nil
-
                 if self.Components[name][instance2].__Properties then
                     for _,property in pairs(self.Components[name][instance2].__Properties) do
                         property:destroy()
@@ -46,6 +44,8 @@ function Core:entityTagRemoved(instance)
 
                     self.Components[name][instance2].__Properties = nil
                 end
+
+                self.Components[name][instance2] = nil
             end
         end
     end
