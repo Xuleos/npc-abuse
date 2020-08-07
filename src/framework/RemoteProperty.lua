@@ -35,7 +35,7 @@ function RemoteProperty.new(args)
         self.value.Name = args.name
         self.value.Parent = instance
     else
-        self.value = instance:FindFirstChild(args.name)
+        self.value = instance:WaitForChild(args.name, 1)
 
         if not self.value or not self.value:IsA(typesToValuesMap[args.propertyType]) then
             error("Could not find remote property on client")
@@ -49,6 +49,8 @@ function RemoteProperty.new(args)
     end
 
    properties[#properties + 1] = self
+
+   self.changed = self.value.Changed
 
     return self
 end

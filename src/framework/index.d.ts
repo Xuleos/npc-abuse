@@ -121,6 +121,8 @@ declare namespace Framework {
 		get(): T;
 
 		set<O extends T | undefined>(val: O): O;
+
+		changed: Signal<(thing: T | undefined) => void>;
 	}
 }
 export = Framework;

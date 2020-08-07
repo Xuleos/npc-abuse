@@ -4,6 +4,8 @@ import Net from "@rbxts/net";
 
 import Inputs from "client/modules/Inputs";
 import Action from "../Action";
+import { Players } from "@rbxts/services";
+import { Holding } from "shared/components/Holding";
 
 const pickUpEvent = new Net.ClientEvent("PickUp");
 
@@ -11,19 +13,23 @@ interface PickupDisplayProps {}
 
 interface PickupDisplayState {
 	object?: BasePart;
+	holdingObject?: Instance;
 }
 
 export default class PickupDisplay extends Roact.PureComponent<PickupDisplayProps, PickupDisplayState> {
-	constructor(props: PickupDisplayProps) {
-		super(props);
-	}
-
 	render() {
+		let enabled = true;
+
+		if (this.state.object && this.state.holdingObject === this.state.object.Parent) {
+			enabled = false;
+		}
+
 		return (
 			<Action
 				name={"Pick Up"}
 				input={Inputs.light.E}
 				object={this.state.object}
+				enabled={enabled}
 				func={() => {
 					const object = this.state.object;
 					if (object && object.Parent && object.Parent.IsA("Model")) {
@@ -47,6 +53,22 @@ export default class PickupDisplay extends Roact.PureComponent<PickupDisplayProp
 					object: Roact.None,
 				});
 			}
+		});
+
+		const player = Players.LocalPlayer;
+		const playerEntity = Framework.mallow.fetchEntity(player);
+
+		if (!playerEntity.hasComponent(Holding)) {
+			error("Local player does not have holding component");
+		}
+
+		const holdingComp = playerEntity.getComponent(Holding);
+
+		holdingComp.holdingModel.changed.Connect((newVal) => {
+			print("HII");
+			this.setState({
+				holdingObject: newVal,
+			});
 		});
 	}
 }

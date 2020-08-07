@@ -8,6 +8,7 @@ interface ActionProps {
 	name: string;
 	input: Input;
 	object?: BasePart;
+	enabled?: boolean;
 	func?: () => void;
 }
 
@@ -22,7 +23,7 @@ export default class Action extends Roact.PureComponent<ActionProps> {
 		return (
 			<ThemeContext.Consumer
 				render={(theme) => {
-					const enabled = this.props.object !== undefined ? true : false;
+					const enabled = this.props.object !== undefined ? this.props.enabled : false;
 
 					const sizeX = 5;
 					const sizeY = 1.5;
