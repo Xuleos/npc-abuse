@@ -72,6 +72,8 @@ export class PickupSystem extends Framework.ServerSystem {
 				weld.Destroy();
 			}
 
+			holdingComp.welds = [];
+
 			holdingComp.holdingModel.set(undefined);
 		}
 	}
