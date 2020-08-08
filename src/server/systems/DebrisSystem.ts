@@ -2,7 +2,7 @@ import * as Framework from "Framework";
 import { Debris } from "server/components/Debris";
 import { RunService } from "@rbxts/services";
 
-export class DebrisSystem extends Framework.ClientSystem {
+export class DebrisSystem extends Framework.ServerSystem {
 	start() {
 		RunService.Heartbeat.Connect((dt) => {
 			for (const debrisObject of this.queries.debrisObjects.getResults()) {
