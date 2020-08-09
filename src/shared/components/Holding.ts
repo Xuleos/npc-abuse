@@ -7,6 +7,8 @@ export class Holding extends Framework.Component {
 		propertyType: "Instance",
 	});
 
+	holdingAnimation?: AnimationTrack;
+
 	welds: Array<ManualWeld> = [];
 
 	constructor(entity: Framework.Entity<Instance>) {

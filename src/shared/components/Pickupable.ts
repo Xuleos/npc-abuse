@@ -2,7 +2,8 @@ import * as Framework from "Framework";
 import { RunService } from "@rbxts/services";
 
 export type weldInfoType = {
-	C0: CFrame;
+	c0: CFrame;
+	animation?: Animation;
 };
 
 export class Pickupable extends Framework.Component {

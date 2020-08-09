@@ -54,7 +54,7 @@ export class NpcSpawningSystem extends Framework.ServerSystem {
 
 						const pickupComp = npcEntity.addComponent(new Pickupable(npcEntity));
 						pickupComp.weldInfo = {
-							C0: new CFrame(0, 0, -3).mul(CFrame.Angles(math.pi / 2, 0, 0)),
+							c0: new CFrame(0, 0, -3).mul(CFrame.Angles(math.pi / 2, 0, 0)),
 						};
 
 						level.count++;
