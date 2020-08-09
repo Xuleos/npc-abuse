@@ -46,7 +46,7 @@
 				}
 			},
 			"assets": {
-				"$path": "assets/replicated-storage"
+				"$path": "assets/replicatedstorage"
 			}
 		},
 		"StarterPlayer": {

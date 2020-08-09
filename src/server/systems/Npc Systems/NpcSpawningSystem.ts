@@ -1,9 +1,9 @@
 import * as Framework from "Framework";
-import { RunService } from "@rbxts/services";
+import { RunService, ReplicatedStorage } from "@rbxts/services";
 import { OutQuart } from "@rbxts/easing-functions";
 import { LEVEL_DEFINITIONS, Level } from "shared/modules/consts/LevelDefinitions";
-import { randomPositionFromLevel } from "server/modules/Npcs/spawningUtility";
-import { createNpc } from "server/modules/Npcs/npcCharacter";
+import { randomPositionFromLevel } from "server/modules/npcs/spawningUtility";
+import { createNpc } from "server/modules/npcs/npcCharacter";
 import { Debris } from "server/components/Debris";
 import { Pickupable } from "shared/components/Pickupable";
 
@@ -55,6 +55,7 @@ export class NpcSpawningSystem extends Framework.ServerSystem {
 						const pickupComp = npcEntity.addComponent(new Pickupable(npcEntity));
 						pickupComp.weldInfo = {
 							c0: new CFrame(0, 0, -3).mul(CFrame.Angles(math.pi / 2, 0, 0)),
+							animation: ReplicatedStorage.assets.animations.HoldingUp,
 						};
 
 						level.count++;

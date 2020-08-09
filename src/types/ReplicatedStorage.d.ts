@@ -2,5 +2,8 @@
 interface ReplicatedStorage extends Instance {
 	assets: Folder & {
 		Dummy: Model;
+		animations: Folder & {
+			HoldingUp: Animation;
+		};
 	};
 }

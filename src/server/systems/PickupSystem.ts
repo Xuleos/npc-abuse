@@ -4,7 +4,8 @@ import t from "@rbxts/t";
 import { Pickupable, weldInfoType } from "shared/components/Pickupable";
 import { Players } from "@rbxts/services";
 import { Holding } from "shared/components/Holding";
-import { AnimController } from "shared/components/AnimController";
+import { HumanoidRef } from "shared/components/HumanoidRef";
+import yieldForR15CharacterDescendants from "@rbxts/yield-for-character";
 
 const pickUpEvent = new Net.ServerEvent("PickUp", t.optional(t.instanceIsA("Model")));
 
@@ -25,8 +26,13 @@ export class PickupSystem extends Framework.ServerSystem {
 			}
 
 			const char = player.Character;
-
 			if (!char || !char.PrimaryPart) {
+				return;
+			}
+
+			const upperTorso = char.FindFirstChild("UpperTorso");
+			if (!upperTorso || !upperTorso.IsA("BasePart")) {
+				warn("Character does not have an upper torso");
 				return;
 			}
 
@@ -44,7 +50,7 @@ export class PickupSystem extends Framework.ServerSystem {
 
 			this.removeCurrentHolding(holdingComp);
 
-			const weld = this.weldItemToPlayer(instance, pickupableComp.weldInfo, char);
+			const weld = this.weldItemToPlayer(instance, pickupableComp.weldInfo, upperTorso);
 			holdingComp.welds.push(weld);
 
 			holdingComp.holdingModel.set(instance);
@@ -52,32 +58,41 @@ export class PickupSystem extends Framework.ServerSystem {
 			//Everything after this comment is responsible for animation thingys
 			const charEntity = Framework.mallow.getEntity(char);
 
-			if (charEntity && charEntity.hasComponent(AnimController)) {
-				const animControllerComp = charEntity.getComponent(AnimController);
+			if (charEntity && charEntity.hasComponent(HumanoidRef)) {
+				//why do I have to use this assert here wth? Can somebody tell me what's wrong with my types?
+				const humRefComp = charEntity.getComponent(HumanoidRef as new () => HumanoidRef);
 
-				this.playHoldingAnimation(animControllerComp, holdingComp, pickupableComp.weldInfo);
+				this.playHoldingAnimation(humRefComp, holdingComp, pickupableComp.weldInfo);
 			}
 		});
 
 		Players.PlayerAdded.Connect((player) => {
 			const playerEntity = Framework.mallow.fetchEntity(player);
 			playerEntity.addComponent(new Holding(playerEntity));
+
+			player.CharacterAdded.Connect((model) => {
+				yieldForR15CharacterDescendants(model).then((char) => {
+					const charEntity = Framework.mallow.fetchEntity(model);
+
+					charEntity.addComponent(new HumanoidRef(charEntity, char.Humanoid));
+				});
+			});
 		});
 	}
 
-	weldItemToPlayer(instance: Required<Model>, weldInfo: weldInfoType, char: Required<Model>) {
+	weldItemToPlayer(instance: Required<Model>, weldInfo: weldInfoType, upperTorso?: BasePart) {
 		const weld = new Instance("ManualWeld");
 		weld.Parent = instance.PrimaryPart;
 
 		weld.Part0 = instance.PrimaryPart;
-		weld.Part1 = char.PrimaryPart;
+		weld.Part1 = upperTorso;
 
 		weld.C0 = weldInfo.c0;
 
 		return weld;
 	}
 
-	playHoldingAnimation(animController: AnimController, holdingComp: Holding, weldInfo: weldInfoType) {
+	playHoldingAnimation(humRef: HumanoidRef, holdingComp: Holding, weldInfo: weldInfoType) {
 		if (weldInfo.animation === undefined) {
 			return;
 		}
@@ -86,7 +101,7 @@ export class PickupSystem extends Framework.ServerSystem {
 			error("There's already a holding animation track and it hasn't been cleaned yet");
 		}
 
-		const animTrack = animController.instance.LoadAnimation(weldInfo.animation);
+		const animTrack = humRef.humanoid.LoadAnimation(weldInfo.animation);
 		animTrack.Play();
 
 		holdingComp.holdingAnimation = animTrack;
