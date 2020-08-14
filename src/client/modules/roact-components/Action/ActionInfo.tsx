@@ -9,7 +9,7 @@ interface ActionProps {
 /**
  * Shows the button to press for the action to happen and what the action is
  */
-export default class ActionInfo extends Roact.PureComponent<ActionProps> {
+export default class ActionInfo extends Roact.Component<ActionProps> {
 	render() {
 		const yScale = 0.8;
 		const xScale = yScale * 0.3;

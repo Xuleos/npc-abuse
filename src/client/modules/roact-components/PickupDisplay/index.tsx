@@ -16,7 +16,7 @@ interface PickupDisplayState {
 	holdingObject?: Instance;
 }
 
-export default class PickupDisplay extends Roact.PureComponent<PickupDisplayProps, PickupDisplayState> {
+export default class PickupDisplay extends Roact.Component<PickupDisplayProps, PickupDisplayState> {
 	render() {
 		let enabled = true;
 

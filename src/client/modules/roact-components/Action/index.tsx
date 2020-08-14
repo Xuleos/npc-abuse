@@ -12,7 +12,7 @@ interface ActionProps {
 	func?: () => void;
 }
 
-export default class Action extends Roact.PureComponent<ActionProps> {
+export default class Action extends Roact.Component<ActionProps> {
 	inputBeganConnection?: RBXScriptConnection;
 
 	constructor(props: ActionProps) {

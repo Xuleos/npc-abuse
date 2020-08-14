@@ -4,7 +4,7 @@ import PickupDisplay from "./PickupDisplay";
 
 interface AppProps {}
 
-export default class App extends Roact.PureComponent<AppProps> {
+export default class App extends Roact.Component<AppProps> {
 	render() {
 		return (
 			<ThemeProvider>

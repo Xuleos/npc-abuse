@@ -22,7 +22,7 @@ interface ThemeProviderProps {
 	theme?: Theme;
 }
 
-export default class ThemeProvider extends Roact.PureComponent<ThemeProviderProps> {
+export default class ThemeProvider extends Roact.Component<ThemeProviderProps> {
 	constructor(props: ThemeProviderProps) {
 		super(props);
 	}
