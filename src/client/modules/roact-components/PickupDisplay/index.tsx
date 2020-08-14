@@ -34,7 +34,7 @@ export default class PickupDisplay extends Roact.Component<PickupDisplayProps, P
 					const object = this.state.object;
 
 					if (this.state.holdingObject) {
-						if (!object) {
+						if (!object || object === this.state.holdingObject) {
 							pickUpEvent.SendToServer(undefined);
 							return;
 						}
