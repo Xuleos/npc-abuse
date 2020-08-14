@@ -2,6 +2,9 @@ import * as Framework from "Framework";
 import { Debris } from "server/components/Debris";
 import { RunService } from "@rbxts/services";
 
+/**
+ * Handles destroying objects with the debris component after a certain amount of time has passed
+ */
 export class DebrisSystem extends Framework.ServerSystem {
 	start() {
 		RunService.Heartbeat.Connect((dt) => {

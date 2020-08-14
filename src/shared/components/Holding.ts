@@ -11,7 +11,7 @@ export class Holding extends Framework.Component {
 
 	welds: Array<ManualWeld> = [];
 
-	constructor(entity: Framework.Entity<Instance>) {
+	constructor(entity: Framework.Entity<Player>) {
 		super(entity);
 	}
 }

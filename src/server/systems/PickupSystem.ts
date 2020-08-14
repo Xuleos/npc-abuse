@@ -80,6 +80,13 @@ export class PickupSystem extends Framework.ServerSystem {
 		});
 	}
 
+	/**
+	 * Creates a really simple weld between the item and the player's upper torso
+	 * @param instance
+	 * @param weldInfo
+	 * @param upperTorso
+	 * @returns the weld it creates
+	 */
 	weldItemToPlayer(instance: Required<Model>, weldInfo: weldInfoType, upperTorso?: BasePart) {
 		const weld = new Instance("ManualWeld");
 		weld.Parent = instance.PrimaryPart;
@@ -118,6 +125,10 @@ export class PickupSystem extends Framework.ServerSystem {
 		holdingComp.holdingAnimation = undefined;
 	}
 
+	/**
+	 * Puts down whatever the player is currently holding and cleans up everything
+	 * @param holdingComp
+	 */
 	removeCurrentHolding(holdingComp: Holding) {
 		const holdingModel = holdingComp.holdingModel.get();
 

@@ -12,6 +12,9 @@ const MAX_SPAWNING_INTERVAL = 5;
 const INTERVAL_CHANGE_RATE = 100;
 const DESPAWN_TIME = 300;
 
+/**
+ * Responsible for spawning npcs nicely in every level
+ */
 export class NpcSpawningSystem extends Framework.ServerSystem {
 	levelSpawners = new Map<
 		string | number,
@@ -68,7 +71,11 @@ export class NpcSpawningSystem extends Framework.ServerSystem {
 		});
 	}
 
-	//Get a interval for a level based on how many npcs are already in it
+	/**
+	 * Get a interval for a level based on how many npcs are already in it
+	 * @param count
+	 * @returns the spawning interval
+	 */
 	getSpawnInterval(count: number) {
 		const change = MAX_SPAWNING_INTERVAL - MIN_SPAWNING_INTERVAL;
 		const num = OutQuart(count, MIN_SPAWNING_INTERVAL, change, INTERVAL_CHANGE_RATE);
