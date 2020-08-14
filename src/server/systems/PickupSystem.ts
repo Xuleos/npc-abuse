@@ -96,6 +96,11 @@ export class PickupSystem extends Framework.ServerSystem {
 
 		weld.C0 = weldInfo.c0;
 
+		const humanoid = instance.FindFirstChildOfClass("Humanoid");
+		if (humanoid) {
+			humanoid.PlatformStand = true;
+		}
+
 		return weld;
 	}
 
@@ -138,6 +143,11 @@ export class PickupSystem extends Framework.ServerSystem {
 			}
 
 			holdingComp.welds = [];
+
+			const humanoid = holdingModel.FindFirstChildOfClass("Humanoid");
+			if (humanoid) {
+				humanoid.PlatformStand = false;
+			}
 
 			holdingComp.holdingModel.set(undefined);
 
