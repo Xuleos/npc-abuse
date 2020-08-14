@@ -1,4 +1,4 @@
-import Framework from "Framework";
+import * as Framework from "Framework";
 import * as Roact from "@rbxts/roact";
 import Net from "@rbxts/net";
 
@@ -32,10 +32,16 @@ export default class PickupDisplay extends Roact.PureComponent<PickupDisplayProp
 				enabled={enabled}
 				func={() => {
 					const object = this.state.object;
+
+					if (this.state.holdingObject) {
+						if (!object) {
+							pickUpEvent.SendToServer(undefined);
+							return;
+						}
+					}
+
 					if (object && object.Parent && object.Parent.IsA("Model")) {
 						pickUpEvent.SendToServer(object.Parent);
-					} else {
-						pickUpEvent.SendToServer(undefined);
 					}
 				}}
 			/>
