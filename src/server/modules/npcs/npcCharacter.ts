@@ -1,4 +1,4 @@
-import { ReplicatedStorage, Workspace } from "@rbxts/services";
+import { PhysicsService, ReplicatedStorage, Workspace } from "@rbxts/services";
 import { femaleHairs, maleHairs, maleShirts, femaleShirts, pants, skinColors, faces } from "./npcAssets";
 
 const random = new Random();
@@ -40,6 +40,12 @@ export function createNpc(position: Vector3) {
 
 	humanoid.ApplyDescription(description);
 	description.Destroy();
+
+	for (const part of dummy.GetDescendants()) {
+		if (part.IsA("BasePart") && part.CanCollide === true) {
+			PhysicsService.SetPartCollisionGroup(part, "Npc");
+		}
+	}
 
 	return dummy;
 }

@@ -1,5 +1,5 @@
 import * as Framework from "Framework";
-import { RunService, ReplicatedStorage } from "@rbxts/services";
+import { RunService, ReplicatedStorage, PhysicsService } from "@rbxts/services";
 import { OutQuart } from "@rbxts/easing-functions";
 import { LEVEL_DEFINITIONS, Level } from "shared/modules/consts/LevelDefinitions";
 import { randomPositionFromLevel } from "server/modules/npcs/spawningUtility";
@@ -11,6 +11,8 @@ const MIN_SPAWNING_INTERVAL = 0.1;
 const MAX_SPAWNING_INTERVAL = 5;
 const INTERVAL_CHANGE_RATE = 100;
 const DESPAWN_TIME = 300;
+
+PhysicsService.CreateCollisionGroup("Npc");
 
 /**
  * Responsible for spawning npcs nicely in every level
@@ -29,6 +31,8 @@ export class NpcSpawningSystem extends Framework.ServerSystem {
 	private random = new Random();
 
 	start() {
+		PhysicsService.CollisionGroupSetCollidable("Npc", "Player", false);
+
 		for (const [name, levelDef] of Object.entries(LEVEL_DEFINITIONS)) {
 			this.levelSpawners.set(name, {
 				count: 0,
