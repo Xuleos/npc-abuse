@@ -2,12 +2,14 @@ import * as Framework from "Framework";
 import Net from "@rbxts/net";
 import t from "@rbxts/t";
 import { Pickupable, weldInfoType } from "shared/components/Pickupable";
-import { Players } from "@rbxts/services";
+import { PhysicsService, Players } from "@rbxts/services";
 import { Holding } from "shared/components/Holding";
 import { HumanoidRef } from "shared/components/HumanoidRef";
 import yieldForR15CharacterDescendants from "@rbxts/yield-for-character";
 
 const pickUpEvent = new Net.ServerEvent("PickUp", t.optional(t.instanceIsA("Model")));
+
+PhysicsService.CreateCollisionGroup("Player");
 
 export class PickupSystem extends Framework.ServerSystem {
 	start() {
@@ -72,6 +74,12 @@ export class PickupSystem extends Framework.ServerSystem {
 
 			player.CharacterAdded.Connect((model) => {
 				yieldForR15CharacterDescendants(model).then((char) => {
+					for (const part of char.GetDescendants()) {
+						if (part.IsA("BasePart") && part.CanCollide === true) {
+							PhysicsService.SetPartCollisionGroup(part, "Player");
+						}
+					}
+
 					const charEntity = Framework.mallow.fetchEntity(model);
 
 					charEntity.addComponent(new HumanoidRef(charEntity, char.Humanoid));
